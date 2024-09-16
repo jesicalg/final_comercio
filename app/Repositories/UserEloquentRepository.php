@@ -14,4 +14,15 @@ class UserEloquentRepository implements UserRepository
           $user = User::create($data);
       });
   }
+  public function findOrFail(int $pk)
+  {
+    return User::findOrFail($pk);
+  }
+  public function update(int $pk, array $data)
+  {
+    $user = $this->findOrFail($pk);
+    DB::transaction(function() use ($user, $data){
+      $user->update($data);
+    });
+  }
 }
