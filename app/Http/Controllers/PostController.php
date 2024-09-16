@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\User;
-use App\Repositories\Contracts\CategoriesRepository;
-use App\Repositories\Contracts\CustomerRepository;
-use App\Repositories\Contracts\PostRepository;
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Repositories\Contracts\CategoriesRepository;
+use App\Repositories\Contracts\PostRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class AdminController extends Controller
+
+class PostController extends Controller
 {
     private PostRepository $postRepo;
     private CategoriesRepository $categoriesRepo;
 
-    private CustomerRepository $customerRepo;
 
-    public function __construct(PostRepository $postRepo, CategoriesRepository $categoriesRepo, CustomerRepository $customerRepo)
+    public function __construct(PostRepository $postRepo, CategoriesRepository $categoriesRepo)
     {
         $this->postRepo = $postRepo;
         $this->categoriesRepo = $categoriesRepo;
-        $this->customerRepo = $customerRepo;
+       
     }
 
     public function formNewPost()
@@ -174,29 +171,6 @@ class AdminController extends Controller
     {
         if($file !== null && Storage::has('imgs/' . $file)) {
             Storage::delete('imgs/' . $file);
-        }
-    }
-
-    public function customerList()
-    {
-        try {
-            $customers = $this->customerRepo->getCustomers();
-
-            if($customers == null)
-            {
-                return redirect()
-                    ->route('admin.customers-view')
-                    ->with('feedback.message', 'No hay clientes aun.');
-            }
-
-            return view('admin.customers-view', [
-                'customers' => $customers,
-            ]);
-        }
-        catch (\Exception $e){
-            return redirect()
-                ->route('admin.customers-view')
-                ->with('feedback.message', 'Ocuirrio un error al cargar los clientes.');
         }
     }
 }

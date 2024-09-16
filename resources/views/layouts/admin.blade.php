@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    @vite('resources/css/app.css')
 </head>
 <body>
     <div class="app">
-        <div class="bg-gray-900 md:grid grid-rows-app min-h-full">
+        <div class="bg-gray-900 md:grid grid-rows-app min-h-screen">
             <nav class="sm:flex justify-between p-4 bg-green-400 bg-opacity-30 text-gray-100 items-center">
                 <a class="text-2xl" href="{{route('home')}}">
                     Superserver
@@ -35,7 +36,7 @@
             <main class="h-full m-auto p-4 text-white container">
                 @if (Session::has('feedback.message'))
                     <div
-                        class="alert alert-{{Session::get('feedback.type', 'success')}}">{!! Session::get('feedback.message') !!}</div>
+                        class="{{Session::get('feedback.type', 'success') =='red' ? 'bg-red-400' :'bg-green-400'}}">{!! Session::get('feedback.message') !!}</div>
                 @endif
                 @yield('main')
             </main>

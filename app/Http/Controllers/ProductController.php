@@ -31,26 +31,6 @@ class ProductController extends Controller
         return view('product.welcome');
     }
 
-    public function processContract(Request $request)
-    {
-        //TODO Pasar al Repo
-        $request->validate(Customer::validationRules(), Customer::validationMessages());
 
-        $params = $request->only(['product_id', 'user_id']);
-
-        $customer = Customer::where('user_id','=', $params['user_id'])->first();
-
-        if($customer != null)
-        {
-            Customer::where('user_id','=', $params['user_id'])
-                ->update(['contracted_end_date'=>now()]);
-        }
-
-        Customer::create($params);
-
-        return redirect()
-            ->route('product.welcome')
-            ->with('feedback.message', 'Bienvenido a la familia!');
-    }
 
 }

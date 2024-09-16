@@ -28,8 +28,13 @@ Route::post('cerrar-sesion', [\App\Http\Controllers\AuthController::class, 'proc
     ->name('auth.processLogout')
     ->middleware('auth');
 
+//Perfil
+Route::get('perfil', [\App\Http\Controllers\ProfileController::class, 'viewProfile'])
+    ->name('auth.viewProfile')
+    ->middleware('auth');
+
 //Contract
-Route::post('servicio/contratado', [\App\Http\Controllers\ProductController::class, 'processContract'])
+Route::post('servicio/contratado', [\App\Http\Controllers\CustomerController::class, 'processContract'])
     ->name('product.processContract')
     ->middleware('auth');
 Route::get('servicio/bienvenido', [\App\Http\Controllers\ProductController::class, 'productWelcome'])
@@ -37,27 +42,27 @@ Route::get('servicio/bienvenido', [\App\Http\Controllers\ProductController::clas
     ->middleware('auth');
 
 //ADMIN
-Route::get('novedades/gestion', [\App\Http\Controllers\AdminController::class, 'postCrud'])
+Route::get('novedades/gestion', [\App\Http\Controllers\PostController::class, 'postCrud'])
     ->name('posts.crud')
     ->middleware(['admin']);
 
-Route::get('clientes/listado', [\App\Http\Controllers\AdminController::class, 'customerList'])
+Route::get('clientes/listado', [\App\Http\Controllers\CustomerController::class, 'customerList'])
     ->name('customer.list')
     ->middleware(['admin']);
 
-Route::get('novedades/nuevo', [\App\Http\Controllers\AdminController::class, 'formNewPost'])
+Route::get('novedades/nuevo', [\App\Http\Controllers\PostController::class, 'formNewPost'])
     ->name('admin.newPost')
     ->middleware(['admin']);
-Route::post('novedades/nuevo', [\App\Http\Controllers\AdminController::class, 'processNewPost'])
+Route::post('novedades/nuevo', [\App\Http\Controllers\PostController::class, 'processNewPost'])
     ->name('admin.processPost')
     ->middleware(['admin']);
 
-Route::get('novedades/editar/{id}', [\App\Http\Controllers\AdminController::class, 'formUpdatePost'])
+Route::get('novedades/editar/{id}', [\App\Http\Controllers\PostController::class, 'formUpdatePost'])
     ->name('admin.updatePost')
     ->middleware(['admin']);
-Route::get('novedades/eliminar/{id}', [\App\Http\Controllers\AdminController::class, 'formDeletePost'])
+Route::get('novedades/eliminar/{id}', [\App\Http\Controllers\PostController::class, 'formDeletePost'])
     ->name('admin.deletePost')
     ->middleware(['admin']);
-Route::post('novedades/editar/{id}', [\App\Http\Controllers\AdminController::class, 'processUpdatePost'])
+Route::post('novedades/editar/{id}', [\App\Http\Controllers\PostController::class, 'processUpdatePost'])
     ->name('admin.processUpdatePost')
     ->middleware(['admin']);

@@ -37,7 +37,7 @@ class AuthController extends Controller
             return redirect()
                 ->route('auth.formLogin')
                 ->with('feedback.message', 'Las credenciales ingresadas no coinciden con nuestros registros')
-                ->with('feedback.type', 'danger')
+                ->with('feedback.type', 'red')
                 ->withInput();
         }
 
@@ -45,7 +45,8 @@ class AuthController extends Controller
 
         return redirect()
             ->route('home')
-            ->with('feedback.message', 'Sesion iniciada con exito !Hola de nuevo!');
+            ->with('feedback.message', 'Sesion iniciada con exito !Hola de nuevo!')
+            ->with('feedback.type', 'green');
     }
 
     public function processRegister(Request $request)
@@ -71,5 +72,10 @@ class AuthController extends Controller
         return redirect()
             ->route('auth.formLogin')
             ->with('feedback.message', 'La sesion se cerro con exito. ¡Te esperamos de nuevo!');
+    }
+
+    public function viewProfile()
+    {
+        return view('auth.profile');
     }
 }

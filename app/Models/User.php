@@ -42,7 +42,7 @@ class User extends BaseUser
     {
         return [
             'email' => 'required|email',
-            'password' => 'required|min:5'
+            'password' => 'required|min:5',
         ];
     }
 
@@ -52,7 +52,7 @@ class User extends BaseUser
             'email.required' => 'Tenés que escribir un mail',
             'email.email' => 'Tenés que escribir un mail valido',
             'password.min' => 'La contraseña debe tener al menos :min caracteres',
-            'password.required' => 'Tenés que escribir el precio de la película'
+            'password.required' => 'Tenés que escribir una contraseña',
         ];
     }
 }
