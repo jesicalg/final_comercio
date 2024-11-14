@@ -32,6 +32,24 @@ Route::post('cerrar-sesion', [\App\Http\Controllers\AuthController::class, 'proc
 Route::get('perfil', [\App\Http\Controllers\ProfileController::class, 'viewProfile'])
     ->name('auth.viewProfile')
     ->middleware('auth');
+Route::get('perfil/editar/{id}', [\App\Http\Controllers\ProfileController::class, 'formUpdate'])
+    ->name('auth.updateProfile')
+    ->middleware('auth');
+Route::post('perfil/editar/{id}', [\App\Http\Controllers\ProfileController::class, 'processUpdate'])
+    ->name('auth.processUpdateProfile')
+    ->middleware('auth');
+Route::get('perfil/editar-password/{id}', [\App\Http\Controllers\ProfileController::class, 'formUpdatePass'])
+    ->name('auth.updatePassword')
+    ->middleware('auth');
+Route::post('perfil/editar-password/{id}', [\App\Http\Controllers\ProfileController::class, 'processUpdatePassword'])
+    ->name('auth.processUpdatePassword')
+    ->middleware('auth');
+Route::get('perfil/editar-email/{id}', [\App\Http\Controllers\ProfileController::class, 'formUpdateEmail'])
+    ->name('auth.updateEmail')
+    ->middleware('auth');
+Route::post('perfil/editar-email/{id}', [\App\Http\Controllers\ProfileController::class, 'processUpdateEmail'])
+    ->name('auth.processUpdateEmail')
+    ->middleware('auth');
 
 //Contract
 Route::post('servicio/contratado', [\App\Http\Controllers\CustomerController::class, 'processContract'])

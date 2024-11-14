@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as BaseUser;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Validation\Rule;
 
 /**
  * App\Models\User
@@ -36,10 +37,35 @@ class User extends BaseUser
     use Notifiable;
     protected $primaryKey = "user_id";
     protected $hidden = ["password", "remember_token"];
-    protected $fillable = ['email', 'password'];
+    protected $fillable = ['email', 'password','avatar','username'];
 
-    public static function validationRules(): array
+    public static function validationRules(?int $userId = null, ?string $context = 'default'): array
     {
+        if($context == 'update'){
+            return [
+                'username' =>  [
+                    'nullable',
+                    'max:200',
+                    Rule::unique('users', 'username')->ignore($userId, 'user_id'),
+                ],
+                'avatar' => 'nullable|image',
+            ];
+        }
+
+        if($context == 'update_password'){
+            return[
+                'current_password'=> 'required|current_password',
+                'password' => 'required|min:5|confirmed',
+            ];
+        }
+
+        if($context == 'update_email'){
+            return[
+                'email'=> 'required|email',
+                'password' => 'required|current_password',
+            ];
+        }
+
         return [
             'email' => 'required|email',
             'password' => 'required|min:5',
@@ -53,6 +79,12 @@ class User extends BaseUser
             'email.email' => 'Tenés que escribir un mail valido',
             'password.min' => 'La contraseña debe tener al menos :min caracteres',
             'password.required' => 'Tenés que escribir una contraseña',
+            'password.confirmed' => 'Las contraseñas no coinciden. Asegurate de ingresar la misma en ambos campos.',
+            'username.max' => 'El nombre no puede tener mas de 200 caracteres',
+            'username.unique' => 'Este nombre ya existe, elige otro',
+            'avatar.image' => 'La imagen debe ser jpg, jpeg, png, bmp, gif, svg, or webp',
+            'current_password.current_password' => 'Contraseña incorrecta',
+            'password.current_password' => 'Contraseña incorrecta'
         ];
     }
 }
